@@ -1,0 +1,54 @@
+name: pytgen
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Get package version
+        id: get_version
+        run: |
+          echo "::set-output name=version::v$(make version)"
+      - name: Check if tag for current package version exists
+        uses: mukunku/tag-exists-action@v1.0.0
+        id: check_tag
+        with: 
+          tag: ${{ steps.get_version.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
+        run: |
+          make setup
+          make init
+      - name: Build distribution and install package
+        run: |
+          make install
+      - name: Run linter
+        run: |
+          make lint
+      - name: Run tests
+        run: |
+          make test
+      - name: Create release and publish artifacts
+        if: false == ${{ steps.check_tag.outputs.exists }}
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*"
+          tag: ${{ steps.get_version.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish package
+        if: false == ${{ steps.check_tag.outputs.exists }}
+        run: |
+          make release TWINE_USERNAME=${{ secrets.PYPI_USERNAME }} TWINE_PASSWORD=${{ secrets.PYPI_PASSWORD }}
