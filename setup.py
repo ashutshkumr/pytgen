@@ -25,7 +25,7 @@ setuptools.setup(
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers :: QA',
+        'Intended Audience :: Developers',
         'Topic :: Software Development :: Testing :: Traffic Generation',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3'

@@ -21,7 +21,7 @@ jobs:
         id: get_version
         run: |
           echo "::set-output name=version::v$(make version)"
-      - name: Check if tag for current package version exists
+      - name: Check tag for current version
         uses: mukunku/tag-exists-action@v1.0.0
         id: check_tag
         with: 
@@ -41,6 +41,10 @@ jobs:
       - name: Run tests
         run: |
           make test
+      - name: Publish package
+        if: false == ${{ steps.check_tag.outputs.exists }}
+        run: |
+          make release TWINE_USERNAME=${{ secrets.PYPI_USERNAME }} TWINE_PASSWORD=${{ secrets.PYPI_PASSWORD }}
       - name: Create release and publish artifacts
         if: false == ${{ steps.check_tag.outputs.exists }}
         uses: ncipollo/release-action@v1
@@ -48,7 +52,3 @@ jobs:
           artifacts: "dist/*"
           tag: ${{ steps.get_version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish package
-        if: false == ${{ steps.check_tag.outputs.exists }}
-        run: |
-          make release TWINE_USERNAME=${{ secrets.PYPI_USERNAME }} TWINE_PASSWORD=${{ secrets.PYPI_PASSWORD }}
