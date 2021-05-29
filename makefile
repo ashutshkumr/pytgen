@@ -13,6 +13,7 @@ init:
 	${ENVPY} -m pip install -r requirements.txt
 
 lint:
+	${ENVPY} -m pytype ${PKG} setup.py
 	${ENVPY} -m flake8 ${PKG} tests setup.py
 
 test:
@@ -30,7 +31,7 @@ release:
 	${ENVPY} -m twine upload -u ${TWINE_USERNAME} -p ${TWINE_PASSWORD} dist/*
 
 clean:
-	rm -rf dist build *.egg-info
+	rm -rf dist build *.egg-info .pytype
 	find . -type d -name ".pytest_cache" | xargs rm -rf
 	find . -type d -name "__pycache__" | xargs rm -rf
 	find . -type f -name "*.pyc" | xargs rm -rf
