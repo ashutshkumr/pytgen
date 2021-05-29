@@ -6,7 +6,7 @@ import os
 import setuptools
 
 pkg_name = 'pytgen'
-version = '0.0.1'
+version = '0.0.2'
 
 # read long description from readme.md
 base_dir = os.path.abspath(os.path.dirname(__file__))
