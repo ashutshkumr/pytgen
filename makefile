@@ -4,6 +4,9 @@ SYSPY := $(if ${SYSPY},${SYSPY},python)
 ENVPY := env/bin/python
 PKG := pytgen
 
+TXIFC := pytgen-vtx
+RXIFC := pytgen-vrx
+
 setup:
 	${SYSPY} -m pip install --upgrade pip
 	${SYSPY} -m pip install --upgrade virtualenv
@@ -37,13 +40,19 @@ clean:
 	find . -type d -name "__pycache__" | xargs rm -rf
 	find . -type f -name "*.pyc" | xargs rm -rf
 
-veth:
-	ip link show vtx 2> /dev/null || ip link add dev vtx type veth peer name vrx
-	ip link set dev vtx up
-	ip link set dev vrx up
+ifc:
+	ip link show ${TXIFC} 2> /dev/null || ( \
+		ip link add dev ${TXIFC} type veth peer name ${RXIFC} \
+		&& ip link set dev ${TXIFC} up \
+		&& ip link set dev ${RXIFC} up \
+		&& ip link show ${TXIFC} \
+		&& ip link show ${RXIFC} \
+	)
 
+rmifc:
+	ip link delete ${TXIFC}
 
 version:
 	@grep "version =" setup.py | cut -d\" -f 2
 
-.PHONY: setup init install lint test dist release clean version
+.PHONY: setup init install lint test dist release clean version ifc rmifc
