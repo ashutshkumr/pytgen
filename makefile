@@ -38,6 +38,6 @@ clean:
 	find . -type f -name "*.pyc" | xargs rm -rf
 
 version:
-	@grep "version =" setup.py | cut -d\' -f 2
+	@grep "version =" setup.py | cut -d\" -f 2
 
 .PHONY: setup init install lint test dist release clean version
