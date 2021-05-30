@@ -4,11 +4,10 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [3.7]
 
     steps:
       - name: Checkout source
@@ -24,7 +23,7 @@ jobs:
       - name: Check tag for current version
         uses: mukunku/tag-exists-action@v1.0.0
         id: check_tag
-        with: 
+        with:
           tag: ${{ steps.get_version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,8 +1,10 @@
 {
     "editor.rulers": [80, 90],
+    "editor.formatOnSave": true,
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
     "python.testing.pytestEnabled": true,
-    "python.analysis.typeCheckingMode": "strict"
+    "python.analysis.typeCheckingMode": "strict",
+    "python.formatting.provider": "black"
 }
