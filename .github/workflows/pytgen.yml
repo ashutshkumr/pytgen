@@ -39,6 +39,7 @@ jobs:
           make lint
       - name: Run tests
         run: |
+          make veth
           make test
       - name: Publish package
         if: steps.check_tag.outputs.exists == 'false'

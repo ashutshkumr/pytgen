@@ -37,6 +37,12 @@ clean:
 	find . -type d -name "__pycache__" | xargs rm -rf
 	find . -type f -name "*.pyc" | xargs rm -rf
 
+veth:
+	ip link show vtx 2> /dev/null || ip link add dev vtx type veth peer name vrx
+	ip link set dev vtx up
+	ip link set dev vrx up
+
+
 version:
 	@grep "version =" setup.py | cut -d\" -f 2
 

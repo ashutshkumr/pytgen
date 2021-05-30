@@ -25,14 +25,17 @@ setuptools.setup(
     license="MIT",
     classifiers=[
         "Development Status :: 3 - Alpha",
+        "Environment :: Console",
         "Intended Audience :: Developers",
         "Topic :: Software Development :: Testing :: Traffic Generation",
         "License :: OSI Approved :: MIT License",
+        "Operating System :: POSIX",
         "Programming Language :: Python :: 3",
     ],
     keywords="pytgen",
     packages=[pkg_name],
     include_package_data=True,
     python_requires=">=3.6",
+    platforms=["linux"],
     install_requires=[],
 )
