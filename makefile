@@ -16,7 +16,7 @@ init:
 	${ENVPY} -m pip install -r requirements.txt
 
 lint:
-	${ENVPY} -m black ${PKG} tests setup.py
+	${ENVPY} -m black --line-length 79 ${PKG} tests setup.py
 	${ENVPY} -m pytype ${PKG} setup.py
 	${ENVPY} -m flake8 ${PKG} tests setup.py
 

@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           sudo make ifc
-          make test
+          sudo make test
       - name: Publish package
         if: steps.check_tag.outputs.exists == 'false'
         run: |
